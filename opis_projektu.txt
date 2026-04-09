@@ -1,0 +1,2 @@
+pexeso: budu karticky ktore sa budu otvarat, bude hrat bot proti hracovi, score za kazdy par 1 bod
+tic tac toe: bude velky 3x3 stvorec s 9 polickami, hrac bude X a bot bude O, ten kto pojde prvy sa bude striedat, score ten kto vyhra dostane 1 bod a ten to prehra 0 bodov, ak remiza doska sa resetne

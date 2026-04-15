@@ -10,7 +10,6 @@
         justify-items: center;
       }
 
-      /* všetky karty rovnaké */
       [class^="cardDiv"] {
         border: 5px outset red;
         background-color: lightblue;    
@@ -29,7 +28,6 @@
         background-color: lightgreen;
       }
 
-      /* čísla skryté */
       [class^="cardDiv"] h1 {
         visibility: hidden;
       }
@@ -84,7 +82,6 @@ function klik(element) {
     let val2 = otvorene[1].innerText;
 
     if (val1 === val2) {
-      // ✅ zhoda
       otvorene[0].classList.remove("active");
       otvorene[1].classList.remove("active");
 
@@ -94,7 +91,6 @@ function klik(element) {
       otvorene = [];
       lock = false;
     } else {
-      // ❌ nezhoda
       setTimeout(() => {
         otvorene[0].classList.remove("active");
         otvorene[1].classList.remove("active");

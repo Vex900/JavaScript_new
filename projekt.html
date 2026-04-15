@@ -37,17 +37,24 @@
         visibility: visible;
       }
 
-      #winText {
-        font-size: 30px;
-        color: green;
-        text-align: center;
-        display: none;
-      }
-
       #info {
         text-align: center;
         font-size: 20px;
         margin: 10px;
+      }
+
+      #score {
+        text-align: center;
+        font-size: 18px;
+        margin: 10px;
+      }
+
+      #result {
+        text-align: center;
+        font-size: 28px;
+        color: green;
+        display: none;
+        margin: 20px;
       }
 
       button {
@@ -59,8 +66,10 @@
 </head>
 <body>
 
-<h1 id="winText">🎉 Vyhral si!</h1>
+<h1 id="result"></h1>
+
 <div id="info">Ťah: Hráč 👤</div>
+<div id="score">Hráč: 0 | Bot: 0</div>
 
 <button onclick="resetGame()">Reset</button>
 
@@ -70,17 +79,26 @@
 let otvorene = [];
 let lock = false;
 let matchedCount = 0;
-let turn = "player"; // 👤 začína hráč
+
+let turn = "player";
+
+let playerScore = 0;
+let botScore = 0;
 
 function startGame() {
   let hra = document.getElementById("hra");
   hra.innerHTML = "";
-  document.getElementById("winText").style.display = "none";
+  document.getElementById("result").style.display = "none";
 
   otvorene = [];
   lock = false;
   matchedCount = 0;
+
   turn = "player";
+  playerScore = 0;
+  botScore = 0;
+
+  updateScore();
 
   document.getElementById("info").innerText = "Ťah: Hráč 👤";
 
@@ -98,8 +116,7 @@ function startGame() {
 }
 
 function klik(element) {
-  if (lock) return;
-  if (turn !== "player") return;
+  if (lock || turn !== "player") return;
   if (element.classList.contains("active") || element.classList.contains("matched")) return;
 
   element.classList.add("active");
@@ -115,9 +132,8 @@ function klik(element) {
       otvorene[0].classList.add("matched");
       otvorene[1].classList.add("matched");
 
+      playerScore++;
       matchedCount += 2;
-
-      checkWin();
 
       otvorene = [];
       lock = false;
@@ -128,14 +144,15 @@ function klik(element) {
 
         otvorene = [];
         lock = false;
-      }, 1500);
+      }, 1200);
     }
 
-    // 👉 po ťahu hráča ide bot
     turn = "bot";
     document.getElementById("info").innerText = "Ťah: Bot 🤖";
 
-    setTimeout(botTurn, 2000);
+    updateScore();
+
+    setTimeout(botTurn, 1500);
   }
 }
 
@@ -165,12 +182,16 @@ function botTurn() {
       c1.classList.add("matched");
       c2.classList.add("matched");
 
+      botScore++;
       matchedCount += 2;
-      checkWin();
+
+      updateScore();
     } else {
       c1.classList.remove("active");
       c2.classList.remove("active");
     }
+
+    checkWin();
 
     turn = "player";
     document.getElementById("info").innerText = "Ťah: Hráč 👤";
@@ -178,9 +199,27 @@ function botTurn() {
   }, 1200);
 }
 
+function updateScore() {
+  document.getElementById("score").innerText =
+    "Hráč: " + playerScore + " | Bot: " + botScore;
+}
+
 function checkWin() {
   if (matchedCount === 20) {
-    document.getElementById("winText").style.display = "block";
+    let result = document.getElementById("result");
+
+    if (playerScore > botScore) {
+      result.innerText = "🎉 Vyhral si!";
+      result.style.color = "green";
+    } else if (botScore > playerScore) {
+      result.innerText = "🤖 Bot vyhral!";
+      result.style.color = "red";
+    } else {
+      result.innerText = "🤝 Remíza!";
+      result.style.color = "orange";
+    }
+
+    result.style.display = "block";
   }
 }
 

@@ -36,29 +36,57 @@
       .matched h1 {
         visibility: visible;
       }
+
+      #winText {
+        font-size: 30px;
+        color: green;
+        text-align: center;
+        margin: 20px;
+        display: none;
+      }
+
+      button {
+        display: block;
+        margin: 10px auto;
+        padding: 10px 20px;
+        font-size: 16px;
+      }
     </style>
 </head>
 <body>
+
+<h1 id="winText">🎉 Vyhral si!</h1>
+<button onclick="resetGame()">Reset</button>
 
 <div class="columnDiv" id="hra"></div>
 
 <script>
 let otvorene = [];
 let lock = false;
+let matchedCount = 0;
 
-let cisla = [1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10];
+function startGame() {
+  let hra = document.getElementById("hra");
+  hra.innerHTML = "";
+  document.getElementById("winText").style.display = "none";
 
-cisla.sort(() => Math.random() - 0.5);
+  otvorene = [];
+  lock = false;
+  matchedCount = 0;
 
-let hra = document.getElementById("hra");
+  let cisla = [1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10];
 
-cisla.forEach((cislo, index) => {
-  let div = document.createElement("div");
-  div.className = "cardDiv" + (index+1);
-  div.innerHTML = "<h1>" + cislo + "</h1>";
-  div.onclick = function() { klik(this); };
-  hra.appendChild(div);
-});
+  // shuffle
+  cisla.sort(() => Math.random() - 0.5);
+
+  cisla.forEach((cislo, index) => {
+    let div = document.createElement("div");
+    div.className = "cardDiv" + (index+1);
+    div.innerHTML = "<h1>" + cislo + "</h1>";
+    div.onclick = function() { klik(this); };
+    hra.appendChild(div);
+  });
+}
 
 function klik(element) {
   if (lock) return;
@@ -80,6 +108,13 @@ function klik(element) {
       otvorene[0].classList.add("matched");
       otvorene[1].classList.add("matched");
 
+      matchedCount += 2;
+
+      // 🎉 výhra
+      if (matchedCount === 20) {
+        document.getElementById("winText").style.display = "block";
+      }
+
       otvorene = [];
       lock = false;
     } else {
@@ -93,6 +128,13 @@ function klik(element) {
     }
   }
 }
+
+function resetGame() {
+  startGame();
+}
+
+// spustenie hry
+startGame();
 </script>
 
 </body>

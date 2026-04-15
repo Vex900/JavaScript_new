@@ -20,13 +20,8 @@
         cursor: pointer;
       }
 
-      .active {
-        background-color: yellow;
-      }
-
-      .matched {
-        background-color: lightgreen;
-      }
+      .active { background-color: yellow; }
+      .matched { background-color: lightgreen; }
 
       [class^="cardDiv"] h1 {
         visibility: hidden;
@@ -37,22 +32,15 @@
         visibility: visible;
       }
 
-      #info {
+      #info, #score {
         text-align: center;
         font-size: 20px;
-        margin: 10px;
-      }
-
-      #score {
-        text-align: center;
-        font-size: 18px;
         margin: 10px;
       }
 
       #result {
         text-align: center;
         font-size: 28px;
-        color: green;
         display: none;
         margin: 20px;
       }
@@ -99,7 +87,6 @@ function startGame() {
   botScore = 0;
 
   updateScore();
-
   document.getElementById("info").innerText = "Ťah: Hráč 👤";
 
   let cisla = [1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10];
@@ -137,22 +124,27 @@ function klik(element) {
 
       otvorene = [];
       lock = false;
-    } else {
-      setTimeout(() => {
-        otvorene[0].classList.remove("active");
-        otvorene[1].classList.remove("active");
 
-        otvorene = [];
-        lock = false;
-      }, 1200);
+      updateScore();
+
+      checkWin();
+
+      document.getElementById("info").innerText = "Ťah: Hráč 👤 (ešte raz 🎯)";
+      return;
     }
 
-    turn = "bot";
-    document.getElementById("info").innerText = "Ťah: Bot 🤖";
+    setTimeout(() => {
+      otvorene[0].classList.remove("active");
+      otvorene[1].classList.remove("active");
 
-    updateScore();
+      otvorene = [];
+      lock = false;
 
-    setTimeout(botTurn, 1500);
+      turn = "bot";
+      document.getElementById("info").innerText = "Ťah: Bot 🤖";
+
+      setTimeout(botTurn, 800);
+    }, 1200);
   }
 }
 
@@ -186,16 +178,18 @@ function botTurn() {
       matchedCount += 2;
 
       updateScore();
-    } else {
-      c1.classList.remove("active");
-      c2.classList.remove("active");
+
+      checkWin();
+
+      botTurn();
+      return;
     }
 
-    checkWin();
+    c1.classList.remove("active");
+    c2.classList.remove("active");
 
     turn = "player";
     document.getElementById("info").innerText = "Ťah: Hráč 👤";
-    lock = false;
   }, 1200);
 }
 
@@ -210,13 +204,10 @@ function checkWin() {
 
     if (playerScore > botScore) {
       result.innerText = "🎉 Vyhral si!";
-      result.style.color = "green";
     } else if (botScore > playerScore) {
       result.innerText = "🤖 Bot vyhral!";
-      result.style.color = "red";
     } else {
       result.innerText = "🤝 Remíza!";
-      result.style.color = "orange";
     }
 
     result.style.display = "block";

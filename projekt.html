@@ -40,33 +40,25 @@
 </head>
 <body>
 
-<div class="columnDiv">
-  <div class="cardDiv1" onclick="klik(this)"><h1>1</h1></div>
-  <div class="cardDiv2" onclick="klik(this)"><h1>2</h1></div>
-  <div class="cardDiv3" onclick="klik(this)"><h1>3</h1></div>
-  <div class="cardDiv4" onclick="klik(this)"><h1>4</h1></div>
-  <div class="cardDiv5" onclick="klik(this)"><h1>5</h1></div>
-  <div class="cardDiv6" onclick="klik(this)"><h1>6</h1></div>
-  <div class="cardDiv7" onclick="klik(this)"><h1>7</h1></div>
-  <div class="cardDiv8" onclick="klik(this)"><h1>8</h1></div>
-  <div class="cardDiv9" onclick="klik(this)"><h1>9</h1></div>
-  <div class="cardDiv10" onclick="klik(this)"><h1>10</h1></div>
-
-  <div class="cardDiv11" onclick="klik(this)"><h1>1</h1></div>
-  <div class="cardDiv12" onclick="klik(this)"><h1>2</h1></div>
-  <div class="cardDiv13" onclick="klik(this)"><h1>3</h1></div>
-  <div class="cardDiv14" onclick="klik(this)"><h1>4</h1></div>
-  <div class="cardDiv15" onclick="klik(this)"><h1>5</h1></div>
-  <div class="cardDiv16" onclick="klik(this)"><h1>6</h1></div>
-  <div class="cardDiv17" onclick="klik(this)"><h1>7</h1></div>
-  <div class="cardDiv18" onclick="klik(this)"><h1>8</h1></div>
-  <div class="cardDiv19" onclick="klik(this)"><h1>9</h1></div>
-  <div class="cardDiv20" onclick="klik(this)"><h1>10</h1></div>
-</div>
+<div class="columnDiv" id="hra"></div>
 
 <script>
 let otvorene = [];
 let lock = false;
+
+let cisla = [1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10];
+
+cisla.sort(() => Math.random() - 0.5);
+
+let hra = document.getElementById("hra");
+
+cisla.forEach((cislo, index) => {
+  let div = document.createElement("div");
+  div.className = "cardDiv" + (index+1);
+  div.innerHTML = "<h1>" + cislo + "</h1>";
+  div.onclick = function() { klik(this); };
+  hra.appendChild(div);
+});
 
 function klik(element) {
   if (lock) return;

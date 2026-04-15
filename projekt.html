@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>pexeso</title>
+    <style>
+    .cardDiv {
+      border: 5px outset red;
+      background-color: lightblue;    
+      text-align: center;
+      width: 100px;
+      height: 100px;
+      margin: 10px;
+      cursor: pointer;
+    }
+
+    .columnDiv {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      justify-items: center;
+    }
+
+    .active {
+      background-color: yellow;
+    }
+    </style>
+</head>
+<body>
+
+<div class="columnDiv">
+  <div class="cardDiv" onclick="klik(this)"></div>
+  <div class="cardDiv" onclick="klik(this)"></div>
+  <div class="cardDiv" onclick="klik(this)"></div>
+  <div class="cardDiv" onclick="klik(this)"></div>
+  <div class="cardDiv" onclick="klik(this)"></div>
+  <div class="cardDiv" onclick="klik(this)"></div>
+  <div class="cardDiv" onclick="klik(this)"></div>
+  <div class="cardDiv" onclick="klik(this)"></div>
+  <div class="cardDiv" onclick="klik(this)"></div>
+  <div class="cardDiv" onclick="klik(this)"></div>
+  <div class="cardDiv" onclick="klik(this)"></div>
+  <div class="cardDiv" onclick="klik(this)"></div>
+  <div class="cardDiv" onclick="klik(this)"></div>
+  <div class="cardDiv" onclick="klik(this)"></div>
+  <div class="cardDiv" onclick="klik(this)"></div>
+  <div class="cardDiv" onclick="klik(this)"></div>
+  <div class="cardDiv" onclick="klik(this)"></div>
+  <div class="cardDiv" onclick="klik(this)"></div>
+  <div class="cardDiv" onclick="klik(this)"></div>
+  <div class="cardDiv" onclick="klik(this)"></div>
+</div>
+
+<script>
+function klik(element) {
+  element.classList.toggle("active");
+}
+</script>
+
+</body>
+</html>

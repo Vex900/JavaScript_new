@@ -9,30 +9,26 @@
       text-align: center;
       width: 100px;
       height: 100px;
-      margin: 20px;
+      margin: 10px;
     }
 
     .columnDiv {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      justify-items: center;
     }
     </style>
 </head>
 <body>
+
 <div class="columnDiv">
-<div class="cardDiv">
+  <div class="cardDiv"></div>
+  <div class="cardDiv"></div>
+  <div class="cardDiv"></div>
+  <div class="cardDiv"></div>
+  <div class="cardDiv"></div>
 </div>
 
-<div class="cardDiv">
-</div>
-
-<div class="cardDiv">
-</div>
-
-<div class="cardDiv">
-</div>
-
-<div class="cardDiv">
-</div>
 </body>
 </html>

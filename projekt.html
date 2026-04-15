@@ -44,17 +44,33 @@
   <div class="cardDiv" onclick="klik(this)"></div>
   <div class="cardDiv" onclick="klik(this)"></div>
   <div class="cardDiv" onclick="klik(this)"></div>
-  <div class="cardDiv" onclick="klik(this)"></div>
-  <div class="cardDiv" onclick="klik(this)"></div>
-  <div class="cardDiv" onclick="klik(this)"></div>
-  <div class="cardDiv" onclick="klik(this)"></div>
 </div>
 
 <script>
+let otvorene = [];
+let lock = false;
+
 function klik(element) {
-  element.classList.toggle("active");
+  if (lock) return; // blok keď čakáme
+  if (element.classList.contains("active")) return;
+
+  element.classList.add("active");
+  otvorene.push(element);
+
+  if (otvorene.length === 2) {
+    lock = true;
+
+    setTimeout(() => {
+      otvorene[0].classList.remove("active");
+      otvorene[1].classList.remove("active");
+
+      otvorene = [];
+      lock = false;
+    }, 2000);
+  }
 }
 </script>
 
 </body>
 </html>
+

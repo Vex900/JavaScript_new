@@ -73,6 +73,24 @@ let turn = "player";
 let playerScore = 0;
 let botScore = 0;
 
+// 🔊 zvuk bez mp3
+function playSound() {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc.type = "sine";
+  osc.frequency.setValueAtTime(600, ctx.currentTime);
+
+  gain.gain.setValueAtTime(0.2, ctx.currentTime);
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc.start();
+  osc.stop(ctx.currentTime + 0.1);
+}
+
 function startGame() {
   let hra = document.getElementById("hra");
   hra.innerHTML = "";
@@ -106,6 +124,8 @@ function klik(element) {
   if (lock || turn !== "player") return;
   if (element.classList.contains("active") || element.classList.contains("matched")) return;
 
+  playSound();
+
   element.classList.add("active");
   otvorene.push(element);
 
@@ -126,7 +146,6 @@ function klik(element) {
       lock = false;
 
       updateScore();
-
       checkWin();
 
       document.getElementById("info").innerText = "Ťah: Hráč 👤 (ešte raz 🎯)";
@@ -163,6 +182,8 @@ function botTurn() {
 
   if (c1 === c2) return botTurn();
 
+  playSound();
+
   c1.classList.add("active");
   c2.classList.add("active");
 
@@ -178,7 +199,6 @@ function botTurn() {
       matchedCount += 2;
 
       updateScore();
-
       checkWin();
 
       botTurn();

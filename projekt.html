@@ -60,6 +60,10 @@
 <div id="score">Hráč: 0 | Bot: 0</div>
 
 <button onclick="resetGame()">Reset</button>
+<button onclick="spustiHudbu()">🎵 Zapnúť hudbu</button>
+
+<!-- skrytý prehrávač -->
+<div id="hudba"></div>
 
 <div class="columnDiv" id="hra"></div>
 
@@ -73,7 +77,6 @@ let turn = "player";
 let playerScore = 0;
 let botScore = 0;
 
-// 🔊 zvuk bez mp3
 function playSound() {
   const ctx = new (window.AudioContext || window.webkitAudioContext)();
   const osc = ctx.createOscillator();
@@ -89,6 +92,20 @@ function playSound() {
 
   osc.start();
   osc.stop(ctx.currentTime + 0.1);
+}
+
+function spustiHudbu() {
+  let hudba = document.getElementById("hudba");
+
+  hudba.innerHTML = `
+    <iframe 
+      width="0" 
+      height="0" 
+      src="https://www.youtube.com/embed/sjkrrmBnpGE?autoplay=1&loop=1&playlist=sjkrrmBnpGE"
+      frameborder="0" 
+      allow="autoplay">
+    </iframe>
+  `;
 }
 
 function startGame() {

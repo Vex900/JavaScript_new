@@ -45,7 +45,7 @@
         margin: 20px;
       }
 
-      button {
+      button, input {
         display: block;
         margin: 10px auto;
         padding: 10px;
@@ -62,18 +62,51 @@
 <button onclick="resetGame()">Reset</button>
 <button onclick="spustiHudbu()">🎵 Zapnúť hudbu</button>
 
-<!-- skrytý prehrávač -->
+<input type="range" min="0" max="100" value="50" id="volumeSlider">
+
 <div id="hudba"></div>
 
 <div class="columnDiv" id="hra"></div>
 
+<script src="https://www.youtube.com/iframe_api"></script>
+
 <script>
+let player;
+
+function onYouTubeIframeAPIReady() {
+  // nič zatiaľ
+}
+
+function spustiHudbu() {
+  if (player) return;
+
+  player = new YT.Player('hudba', {
+    height: '0',
+    width: '0',
+    videoId: 'sjkrrmBnpGE',
+    playerVars: {
+      autoplay: 1,
+      loop: 1,
+      playlist: 'sjkrrmBnpGE'
+    },
+    events: {
+      onReady: function(event) {
+        event.target.setVolume(document.getElementById("volumeSlider").value);
+      }
+    }
+  });
+}
+
+document.getElementById("volumeSlider").oninput = function() {
+  if (player) {
+    player.setVolume(this.value);
+  }
+};
+
 let otvorene = [];
 let lock = false;
 let matchedCount = 0;
-
 let turn = "player";
-
 let playerScore = 0;
 let botScore = 0;
 
@@ -84,7 +117,6 @@ function playSound() {
 
   osc.type = "sine";
   osc.frequency.setValueAtTime(600, ctx.currentTime);
-
   gain.gain.setValueAtTime(0.2, ctx.currentTime);
 
   osc.connect(gain);
@@ -92,20 +124,6 @@ function playSound() {
 
   osc.start();
   osc.stop(ctx.currentTime + 0.1);
-}
-
-function spustiHudbu() {
-  let hudba = document.getElementById("hudba");
-
-  hudba.innerHTML = `
-    <iframe 
-      width="0" 
-      height="0" 
-      src="https://www.youtube.com/embed/sjkrrmBnpGE?autoplay=1&loop=1&playlist=sjkrrmBnpGE"
-      frameborder="0" 
-      allow="autoplay">
-    </iframe>
-  `;
 }
 
 function startGame() {
@@ -116,7 +134,6 @@ function startGame() {
   otvorene = [];
   lock = false;
   matchedCount = 0;
-
   turn = "player";
   playerScore = 0;
   botScore = 0;
@@ -125,7 +142,6 @@ function startGame() {
   document.getElementById("info").innerText = "Ťah: Hráč 👤";
 
   let cisla = [1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10];
-
   cisla.sort(() => Math.random() - 0.5);
 
   cisla.forEach((cislo, index) => {
